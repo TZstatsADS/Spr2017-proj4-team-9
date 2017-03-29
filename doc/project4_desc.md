@@ -1,5 +1,5 @@
 ### GU4243/GR5243 Spring 2017 Applied Data Science
-### Project 4 Entity Resoultation Algorithms Evaluation
+### Project 4 Entity Resolution Algorithms Evaluation
 
 In this project, working in teams, you will evaluate and **compare** a pair of algorithms for **Entity Resolution**.
 
