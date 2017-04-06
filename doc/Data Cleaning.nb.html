@@ -174,28 +174,104 @@ $(document).ready(function () {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShzdHJpbmdyKVxuYGBgIn0= -->
+<pre class="r"><code>library(stringr)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucXVlcnkubGlzdFxuXG5gYGAifQ== -->
-<pre class="r"><code>query.list
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0YS5saWI9XCIuLi9kYXRhL25hbWVzZXRcIlxuZGF0YS5maWxlcz1saXN0LmZpbGVzKHBhdGg9ZGF0YS5saWIsIFwiKi50eHRcIilcblxuZGF0YS5maWxlc1xuXG4jIyByZW1vdmUgXCIqLnR4dFwiXG5xdWVyeS5saXN0PXN1YnN0cmluZyhkYXRhLmZpbGVzLCBcbiAgICAgICAgICAgICAgICAgICAgIDEsIG5jaGFyKGRhdGEuZmlsZXMpLTQpXG5cbnF1ZXJ5Lmxpc3RcblxuIyMgYWRkIGEgc3BhY2VcbnF1ZXJ5Lmxpc3Q9cGFzdGUoc3Vic3RyaW5nKHF1ZXJ5Lmxpc3QsIDEsIDEpLCBcbiAgICAgICAgICAgICAgICAgXCIgXCIsIFxuICAgICAgICAgICAgICAgICBzdWJzdHJpbmcocXVlcnkubGlzdCwgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAyLCBuY2hhcihxdWVyeS5saXN0KSksXG4gICAgICAgICAgICAgICAgIHNlcD1cIlwiXG4gICAgICAgICAgICAgICAgIClcblxucXVlcnkubGlzdFxuXG5gYGAifQ== -->
+<pre class="r"><code>data.lib=&quot;../data/nameset&quot;
+data.files=list.files(path=data.lib, &quot;*.txt&quot;)
+
+data.files
+
+## remove &quot;*.txt&quot;
+query.list=substring(data.files, 
+                     1, nchar(data.files)-4)
+
+query.list
+
+## add a space
+query.list=paste(substring(query.list, 1, 1), 
+                 &quot; &quot;, 
+                 substring(query.list, 
+                           2, nchar(query.list)),
+                 sep=&quot;&quot;
+                 )
+
+query.list
 </code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcIkEgR3VwdGFcIiAgICBcIkEgS3VtYXJcIiAgICBcIkMgQ2hlblwiICAgICBcIkQgSm9obnNvblwiICBcIkogTGVlXCIgICAgICBcIkogTWFydGluXCIgICBcIkogUm9iaW5zb25cIlxuIFs4XSBcIkogU21pdGhcIiAgICBcIksgVGFuYWthXCIgICBcIk0gQnJvd25cIiAgICBcIk0gSm9uZXNcIiAgICBcIk0gTWlsbGVyXCIgICBcIlMgTGVlXCIgICAgICBcIlkgQ2hlblwiICAgIFxuIn0= -->
-<pre><code> [1] &quot;A Gupta&quot;    &quot;A Kumar&quot;    &quot;C Chen&quot;     &quot;D Johnson&quot;  &quot;J Lee&quot;      &quot;J Martin&quot;   &quot;J Robinson&quot;
- [8] &quot;J Smith&quot;    &quot;K Tanaka&quot;   &quot;M Brown&quot;    &quot;M Jones&quot;    &quot;M Miller&quot;   &quot;S Lee&quot;      &quot;Y Chen&quot;    </code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZi5saW5lLnByb2M9ZnVuY3Rpb24obGluLCBuYW0ucXVlcnk9XCIuXCIpe1xuXG4gICMgcmVtb3ZlIHVud2FudGVkIGNoYXJhY3RlcnNcbiAgY2hhcl9ub3RhbGxvd2VkIDwtIFwiXFxcXEAjJCVeJj9cIiAjIGNoYXJhY3RlcnMgdG8gYmUgcmVtb3ZlZFxuICBsaW4uc3RyPXN0cl9yZXBsYWNlKGxpbiwgY2hhcl9ub3RhbGxvd2VkLCBcIlwiKVxuXG4gICMgZ2V0IGF1dGhvciBpZFxuICBsaW4uc3RyPXN0cnNwbGl0KGxpbi5zdHIsIFwiX1wiKVtbMV1dXG4gIGF1dGhvcl9pZD1hcy5udW1lcmljKGxpbi5zdHJbMV0pXG4gIFxuICAjIGdldCBwYXBlciBpZFxuICBsaW4uc3RyPWxpbi5zdHJbMl1cbiAgcGFwZXJfaWQ9c3Ryc3BsaXQobGluLnN0ciwgXCIgXCIpW1sxXV1bMV1cbiAgbGluLnN0cj1zdWJzdHJpbmcobGluLnN0ciwgbmNoYXIocGFwZXJfaWQpKzEsIG5jaGFyKGxpbi5zdHIpKVxuICBwYXBlcl9pZD1hcy5udW1lcmljKHBhcGVyX2lkKVxuICBcbiAgIyBnZXQgY29hdXRob3IgbGlzdFxuICBsaW4uc3RyPXN0cnNwbGl0KGxpbi5zdHIsIFwiPD5cIilbWzFdXVxuICBjb2F1dGhvcl9saXN0PXN0cnNwbGl0KGxpbi5zdHJbMV0sIFwiO1wiKVtbMV1dXG5cbiAgI3ByaW50KGxpbi5zdHIpXG4gIGZvcihqIGluIDE6bGVuZ3RoKGNvYXV0aG9yX2xpc3QpKXtcbiAgICAgIGlmKG5jaGFyKGNvYXV0aG9yX2xpc3Rbal0pPjApe1xuICAgICAgICBuYW0gPSBzdHJzcGxpdChjb2F1dGhvcl9saXN0W2pdLCBcIiBcIilbWzFdXVxuICAgICAgICBpZihuY2hhcihuYW1bMV0pPjApe1xuICAgICAgICAgIGZpcnN0LmluaT1zdWJzdHJpbmcobmFtWzFdLCAxLCAxKVxuICAgICAgICB9ZWxzZXtcbiAgICAgICAgICBmaXJzdC5pbmk9c3Vic3RyaW5nKG5hbVsyXSwgMSwgMSlcbiAgICAgICAgfVxuICAgICAgfVxuICAgICAgbGFzdC5uYW1lPW5hbVtsZW5ndGgobmFtKV1cbiAgICAgIG5hbS5zdHIgPSBwYXN0ZShmaXJzdC5pbmksIGxhc3QubmFtZSlcbiAgICAgIGNvYXV0aG9yX2xpc3Rbal09bmFtLnN0clxuICB9XG4gIFxuICBtYXRjaF9pbmQgPSBjaGFybWF0Y2gobmFtLnF1ZXJ5LCBjb2F1dGhvcl9saXN0LCBub21hdGNoPS0xKVxuICBcbiAgI3ByaW50KG5hbS5xdWVyeSlcbiAgI3ByaW50KGNvYXV0aG9yX2xpc3QpXG4gICNwcmludChtYXRjaF9pbmQpXG4gIFxuICBpZihtYXRjaF9pbmQ+MCl7XG4gICAgXG4gICAgY29hdXRob3JfbGlzdD1jb2F1dGhvcl9saXN0Wy1tYXRjaF9pbmRdXG4gIH1cbiAgXG4gIHBhcGVyX3RpdGxlPWxpbi5zdHJbMl1cbiAgam91cm5hbF9uYW1lPWxpbi5zdHJbM11cbiAgXG4gIGxpc3QoYXV0aG9yX2lkLCBcbiAgICAgICBwYXBlcl9pZCwgXG4gICAgICAgY29hdXRob3JfbGlzdCwgXG4gICAgICAgcGFwZXJfdGl0bGUsIFxuICAgICAgIGpvdXJuYWxfbmFtZSlcbn1cbmBgYCJ9 -->
+<pre class="r"><code>f.line.proc=function(lin, nam.query=&quot;.&quot;){
+
+  # remove unwanted characters
+  char_notallowed &lt;- &quot;\\@#$%^&amp;?&quot; # characters to be removed
+  lin.str=str_replace(lin, char_notallowed, &quot;&quot;)
+
+  # get author id
+  lin.str=strsplit(lin.str, &quot;_&quot;)[[1]]
+  author_id=as.numeric(lin.str[1])
+  
+  # get paper id
+  lin.str=lin.str[2]
+  paper_id=strsplit(lin.str, &quot; &quot;)[[1]][1]
+  lin.str=substring(lin.str, nchar(paper_id)+1, nchar(lin.str))
+  paper_id=as.numeric(paper_id)
+  
+  # get coauthor list
+  lin.str=strsplit(lin.str, &quot;&lt;&gt;&quot;)[[1]]
+  coauthor_list=strsplit(lin.str[1], &quot;;&quot;)[[1]]
+
+  #print(lin.str)
+  for(j in 1:length(coauthor_list)){
+      if(nchar(coauthor_list[j])&gt;0){
+        nam = strsplit(coauthor_list[j], &quot; &quot;)[[1]]
+        if(nchar(nam[1])&gt;0){
+          first.ini=substring(nam[1], 1, 1)
+        }else{
+          first.ini=substring(nam[2], 1, 1)
+        }
+      }
+      last.name=nam[length(nam)]
+      nam.str = paste(first.ini, last.name)
+      coauthor_list[j]=nam.str
+  }
+  
+  match_ind = charmatch(nam.query, coauthor_list, nomatch=-1)
+  
+  #print(nam.query)
+  #print(coauthor_list)
+  #print(match_ind)
+  
+  if(match_ind&gt;0){
+    
+    coauthor_list=coauthor_list[-match_ind]
+  }
+  
+  paper_title=lin.str[2]
+  journal_name=lin.str[3]
+  
+  list(author_id, 
+       paper_id, 
+       coauthor_list, 
+       paper_title, 
+       journal_name)
+}</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0YV9saXN0PWxpc3QoMTpsZW5ndGgoZGF0YS5maWxlcykpXG5mb3IoaSBpbiAxOmxlbmd0aChkYXRhLmZpbGVzKSl7XG4gIFxuICAjIyBTdGVwIDAgc2NhbiBpbiBvbmUgbGluZSBhdCBhIHRpbWUuXG4gIFxuICBkYXQ9YXMubGlzdChyZWFkTGluZXMocGFzdGUoZGF0YS5saWIsIGRhdGEuZmlsZXNbaV0sIHNlcD1cIi9cIikpKVxuICBkYXRhX2xpc3RbW2ldXT1sYXBwbHkoZGF0LCBmLmxpbmUucHJvYywgbmFtLnF1ZXJ5PXF1ZXJ5Lmxpc3RbaV0pXG4gIFxuICBcbn1cbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0YV9saXN0PWxpc3QoMTpsZW5ndGgoZGF0YS5maWxlcykpXG5cbmZvcihpIGluIDE6bGVuZ3RoKGRhdGEuZmlsZXMpKXtcbiAgXG4gICMjIFN0ZXAgMCBzY2FuIGluIG9uZSBsaW5lIGF0IGEgdGltZS5cbiAgXG4gIGRhdD1hcy5saXN0KHJlYWRMaW5lcyhwYXN0ZShkYXRhLmxpYiwgZGF0YS5maWxlc1tpXSwgc2VwPVwiL1wiKSkpXG4gIGRhdGFfbGlzdFtbaV1dPWxhcHBseShkYXQsIGYubGluZS5wcm9jLCBuYW0ucXVlcnk9cXVlcnkubGlzdFtpXSlcbiAgXG4gIFxufVxuYGBgIn0= -->
 <pre class="r"><code>data_list=list(1:length(data.files))
+
 for(i in 1:length(data.files)){
   
   ## Step 0 scan in one line at a time.
@@ -208,7 +284,7 @@ for(i in 1:length(data.files)){
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 
-<div id="rmd-source-code">Ci0tLQp0aXRsZTogIlByb2plY3QgNCBkYXRhIGNsZWFuaW5nIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCmBgYHtyfQpsaWJyYXJ5KHN0cmluZ3IpCmBgYAoKYGBge3J9CmRhdGEubGliPSIuLi9kYXRhL25hbWVzZXQiCmRhdGEuZmlsZXM9bGlzdC5maWxlcyhwYXRoPWRhdGEubGliLCAiKi50eHQiKQoKZGF0YS5maWxlcwoKIyMgcmVtb3ZlICIqLnR4dCIKcXVlcnkubGlzdD1zdWJzdHJpbmcoZGF0YS5maWxlcywgCiAgICAgICAgICAgICAgICAgICAgIDEsIG5jaGFyKGRhdGEuZmlsZXMpLTQpCgpxdWVyeS5saXN0CgojIyBhZGQgYSBzcGFjZQpxdWVyeS5saXN0PXBhc3RlKHN1YnN0cmluZyhxdWVyeS5saXN0LCAxLCAxKSwgCiAgICAgICAgICAgICAgICAgIiAiLCAKICAgICAgICAgICAgICAgICBzdWJzdHJpbmcocXVlcnkubGlzdCwgCiAgICAgICAgICAgICAgICAgICAgICAgICAgIDIsIG5jaGFyKHF1ZXJ5Lmxpc3QpKSwKICAgICAgICAgICAgICAgICBzZXA9IiIKICAgICAgICAgICAgICAgICApCgpxdWVyeS5saXN0CgpgYGAKCmBgYHtyfQpmLmxpbmUucHJvYz1mdW5jdGlvbihsaW4sIG5hbS5xdWVyeT0iLiIpewoKICAjIHJlbW92ZSB1bndhbnRlZCBjaGFyYWN0ZXJzCiAgY2hhcl9ub3RhbGxvd2VkIDwtICJcXEAjJCVeJj8iICMgY2hhcmFjdGVycyB0byBiZSByZW1vdmVkCiAgbGluLnN0cj1zdHJfcmVwbGFjZShsaW4sIGNoYXJfbm90YWxsb3dlZCwgIiIpCgogICMgZ2V0IGF1dGhvciBpZAogIGxpbi5zdHI9c3Ryc3BsaXQobGluLnN0ciwgIl8iKVtbMV1dCiAgYXV0aG9yX2lkPWFzLm51bWVyaWMobGluLnN0clsxXSkKICAKICAjIGdldCBwYXBlciBpZAogIGxpbi5zdHI9bGluLnN0clsyXQogIHBhcGVyX2lkPXN0cnNwbGl0KGxpbi5zdHIsICIgIilbWzFdXVsxXQogIGxpbi5zdHI9c3Vic3RyaW5nKGxpbi5zdHIsIG5jaGFyKHBhcGVyX2lkKSsxLCBuY2hhcihsaW4uc3RyKSkKICBwYXBlcl9pZD1hcy5udW1lcmljKHBhcGVyX2lkKQogIAogICMgZ2V0IGNvYXV0aG9yIGxpc3QKICBsaW4uc3RyPXN0cnNwbGl0KGxpbi5zdHIsICI8PiIpW1sxXV0KICBjb2F1dGhvcl9saXN0PXN0cnNwbGl0KGxpbi5zdHJbMV0sICI7IilbWzFdXQoKICAjcHJpbnQobGluLnN0cikKICBmb3IoaiBpbiAxOmxlbmd0aChjb2F1dGhvcl9saXN0KSl7CiAgICAgIGlmKG5jaGFyKGNvYXV0aG9yX2xpc3Rbal0pPjApewogICAgICAgIG5hbSA9IHN0cnNwbGl0KGNvYXV0aG9yX2xpc3Rbal0sICIgIilbWzFdXQogICAgICAgIGlmKG5jaGFyKG5hbVsxXSk+MCl7CiAgICAgICAgICBmaXJzdC5pbmk9c3Vic3RyaW5nKG5hbVsxXSwgMSwgMSkKICAgICAgICB9ZWxzZXsKICAgICAgICAgIGZpcnN0LmluaT1zdWJzdHJpbmcobmFtWzJdLCAxLCAxKQogICAgICAgIH0KICAgICAgfQogICAgICBsYXN0Lm5hbWU9bmFtW2xlbmd0aChuYW0pXQogICAgICBuYW0uc3RyID0gcGFzdGUoZmlyc3QuaW5pLCBsYXN0Lm5hbWUpCiAgICAgIGNvYXV0aG9yX2xpc3Rbal09bmFtLnN0cgogIH0KICAKICBtYXRjaF9pbmQgPSBjaGFybWF0Y2gobmFtLnF1ZXJ5LCBjb2F1dGhvcl9saXN0LCBub21hdGNoPS0xKQogIAogICNwcmludChuYW0ucXVlcnkpCiAgI3ByaW50KGNvYXV0aG9yX2xpc3QpCiAgI3ByaW50KG1hdGNoX2luZCkKICAKICBpZihtYXRjaF9pbmQ+MCl7CiAgICAKICAgIGNvYXV0aG9yX2xpc3Q9Y29hdXRob3JfbGlzdFstbWF0Y2hfaW5kXQogIH0KICAKICBwYXBlcl90aXRsZT1saW4uc3RyWzJdCiAgam91cm5hbF9uYW1lPWxpbi5zdHJbM10KICAKICBsaXN0KGF1dGhvcl9pZCwgCiAgICAgICBwYXBlcl9pZCwgCiAgICAgICBjb2F1dGhvcl9saXN0LCAKICAgICAgIHBhcGVyX3RpdGxlLCAKICAgICAgIGpvdXJuYWxfbmFtZSkKfQpgYGAKCmBgYHtyfQpkYXRhX2xpc3Q9bGlzdCgxOmxlbmd0aChkYXRhLmZpbGVzKSkKCmZvcihpIGluIDE6bGVuZ3RoKGRhdGEuZmlsZXMpKXsKICAKICAjIyBTdGVwIDAgc2NhbiBpbiBvbmUgbGluZSBhdCBhIHRpbWUuCiAgCiAgZGF0PWFzLmxpc3QocmVhZExpbmVzKHBhc3RlKGRhdGEubGliLCBkYXRhLmZpbGVzW2ldLCBzZXA9Ii8iKSkpCiAgZGF0YV9saXN0W1tpXV09bGFwcGx5KGRhdCwgZi5saW5lLnByb2MsIG5hbS5xdWVyeT1xdWVyeS5saXN0W2ldKQogIAogIAp9CmBgYAo=</div>
+<div id="rmd-source-code">Ci0tLQp0aXRsZTogIlByb2plY3QgNCBkYXRhIGNsZWFuaW5nIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCmBgYHtyfQpsaWJyYXJ5KHN0cmluZ3IpCmBgYAoKYGBge3J9CmRhdGEubGliPSIuLi9kYXRhL25hbWVzZXQiCmRhdGEuZmlsZXM9bGlzdC5maWxlcyhwYXRoPWRhdGEubGliLCAiKi50eHQiKQoKZGF0YS5maWxlcwoKIyMgcmVtb3ZlICIqLnR4dCIKcXVlcnkubGlzdD1zdWJzdHJpbmcoZGF0YS5maWxlcywgCiAgICAgICAgICAgICAgICAgICAgIDEsIG5jaGFyKGRhdGEuZmlsZXMpLTQpCgpxdWVyeS5saXN0CgojIyBhZGQgYSBzcGFjZQpxdWVyeS5saXN0PXBhc3RlKHN1YnN0cmluZyhxdWVyeS5saXN0LCAxLCAxKSwgCiAgICAgICAgICAgICAgICAgIiAiLCAKICAgICAgICAgICAgICAgICBzdWJzdHJpbmcocXVlcnkubGlzdCwgCiAgICAgICAgICAgICAgICAgICAgICAgICAgIDIsIG5jaGFyKHF1ZXJ5Lmxpc3QpKSwKICAgICAgICAgICAgICAgICBzZXA9IiIKICAgICAgICAgICAgICAgICApCgpxdWVyeS5saXN0CgpgYGAKCgpgYGB7cn0KZi5saW5lLnByb2M9ZnVuY3Rpb24obGluLCBuYW0ucXVlcnk9Ii4iKXsKCiAgIyByZW1vdmUgdW53YW50ZWQgY2hhcmFjdGVycwogIGNoYXJfbm90YWxsb3dlZCA8LSAiXFxAIyQlXiY/IiAjIGNoYXJhY3RlcnMgdG8gYmUgcmVtb3ZlZAogIGxpbi5zdHI9c3RyX3JlcGxhY2UobGluLCBjaGFyX25vdGFsbG93ZWQsICIiKQoKICAjIGdldCBhdXRob3IgaWQKICBsaW4uc3RyPXN0cnNwbGl0KGxpbi5zdHIsICJfIilbWzFdXQogIGF1dGhvcl9pZD1hcy5udW1lcmljKGxpbi5zdHJbMV0pCiAgCiAgIyBnZXQgcGFwZXIgaWQKICBsaW4uc3RyPWxpbi5zdHJbMl0KICBwYXBlcl9pZD1zdHJzcGxpdChsaW4uc3RyLCAiICIpW1sxXV1bMV0KICBsaW4uc3RyPXN1YnN0cmluZyhsaW4uc3RyLCBuY2hhcihwYXBlcl9pZCkrMSwgbmNoYXIobGluLnN0cikpCiAgcGFwZXJfaWQ9YXMubnVtZXJpYyhwYXBlcl9pZCkKICAKICAjIGdldCBjb2F1dGhvciBsaXN0CiAgbGluLnN0cj1zdHJzcGxpdChsaW4uc3RyLCAiPD4iKVtbMV1dCiAgY29hdXRob3JfbGlzdD1zdHJzcGxpdChsaW4uc3RyWzFdLCAiOyIpW1sxXV0KCiAgI3ByaW50KGxpbi5zdHIpCiAgZm9yKGogaW4gMTpsZW5ndGgoY29hdXRob3JfbGlzdCkpewogICAgICBpZihuY2hhcihjb2F1dGhvcl9saXN0W2pdKT4wKXsKICAgICAgICBuYW0gPSBzdHJzcGxpdChjb2F1dGhvcl9saXN0W2pdLCAiICIpW1sxXV0KICAgICAgICBpZihuY2hhcihuYW1bMV0pPjApewogICAgICAgICAgZmlyc3QuaW5pPXN1YnN0cmluZyhuYW1bMV0sIDEsIDEpCiAgICAgICAgfWVsc2V7CiAgICAgICAgICBmaXJzdC5pbmk9c3Vic3RyaW5nKG5hbVsyXSwgMSwgMSkKICAgICAgICB9CiAgICAgIH0KICAgICAgbGFzdC5uYW1lPW5hbVtsZW5ndGgobmFtKV0KICAgICAgbmFtLnN0ciA9IHBhc3RlKGZpcnN0LmluaSwgbGFzdC5uYW1lKQogICAgICBjb2F1dGhvcl9saXN0W2pdPW5hbS5zdHIKICB9CiAgCiAgbWF0Y2hfaW5kID0gY2hhcm1hdGNoKG5hbS5xdWVyeSwgY29hdXRob3JfbGlzdCwgbm9tYXRjaD0tMSkKICAKICAjcHJpbnQobmFtLnF1ZXJ5KQogICNwcmludChjb2F1dGhvcl9saXN0KQogICNwcmludChtYXRjaF9pbmQpCiAgCiAgaWYobWF0Y2hfaW5kPjApewogICAgCiAgICBjb2F1dGhvcl9saXN0PWNvYXV0aG9yX2xpc3RbLW1hdGNoX2luZF0KICB9CiAgCiAgcGFwZXJfdGl0bGU9bGluLnN0clsyXQogIGpvdXJuYWxfbmFtZT1saW4uc3RyWzNdCiAgCiAgbGlzdChhdXRob3JfaWQsIAogICAgICAgcGFwZXJfaWQsIAogICAgICAgY29hdXRob3JfbGlzdCwgCiAgICAgICBwYXBlcl90aXRsZSwgCiAgICAgICBqb3VybmFsX25hbWUpCn0KYGBgCgpgYGB7cn0KZGF0YV9saXN0PWxpc3QoMTpsZW5ndGgoZGF0YS5maWxlcykpCgpmb3IoaSBpbiAxOmxlbmd0aChkYXRhLmZpbGVzKSl7CiAgCiAgIyMgU3RlcCAwIHNjYW4gaW4gb25lIGxpbmUgYXQgYSB0aW1lLgogIAogIGRhdD1hcy5saXN0KHJlYWRMaW5lcyhwYXN0ZShkYXRhLmxpYiwgZGF0YS5maWxlc1tpXSwgc2VwPSIvIikpKQogIGRhdGFfbGlzdFtbaV1dPWxhcHBseShkYXQsIGYubGluZS5wcm9jLCBuYW0ucXVlcnk9cXVlcnkubGlzdFtpXSkKICAKICAKfQpgYGAK</div>
 
 
 

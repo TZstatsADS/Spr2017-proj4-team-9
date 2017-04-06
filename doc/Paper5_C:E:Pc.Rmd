@@ -1,0 +1,44 @@
+---
+title: "Project 4 - Paper 5 Main Script"
+author: "Xuehan Liu"
+date: "04/05/2017"
+output: pdf_document
+---
+
+This file is currently a template for implementing one of the suggested papers, Han, Zha, & Giles (2005). Due to the nature of the method, we only implement the method on a subset of the data, "AKumar.txt". In your project, you need to work on the whole dataset. You should follow the same structure as in this tutorial, but update it according to the papers you are assigned.
+
+## Step 0: Load the packages, specify directories
+
+```{r}
+
+setwd("/Users/xuehan/Desktop/Spr2017-proj4-team-9/doc/")
+# here replace it with your own path or manually set it in RStudio
+# to where this rmd file is located
+```
+
+## Step 1: Load and process the data
+
+```{r}
+
+```
+
+
+## Step 2: Score Representation: Clusterwise Scoring Function
+
+```{r}
+
+```
+
+
+
+## Step 3: Training Example Generation: Error-Driven Online Training
+
+```{r}
+
+```
+
+## Step 4: Loss Function: Non-Ranking Perceptron 
+
+```{r}
+
+```

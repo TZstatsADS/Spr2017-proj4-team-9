@@ -31,6 +31,7 @@ query.list
 
 ```
 
+
 ```{r}
 f.line.proc=function(lin, nam.query="."){
 
