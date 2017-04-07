@@ -23,12 +23,13 @@ setwd("/Users/xuehan/Desktop/Spr2017-proj4-team-9/doc/")
 ```
 
 
-## Step 2: Score Representation: Clusterwise Scoring Function
+## Step 2: Score Representation: Clusterwise Scoring Function + Clusterwise Classification Training
+
+The package "merDeriv" contains a function that can be used to calculate the clusterwise scoring function. 
 
 ```{r}
 
 ```
-
 
 
 ## Step 3: Training Example Generation: Error-Driven Online Training
