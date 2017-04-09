@@ -1,0 +1,231 @@
+---
+title: "Project 4 - Example Main Script"
+author: "Jing Wu, Tian Zheng"
+date: "3/22/2017"
+output: pdf_document
+---
+
+This file is currently a template for implementing one of the suggested papers, Han, Zha, & Giles (2005). Due to the nature of the method, we only implement the method on a subset of the data, "AKumar.txt". In your project, you need to work on the whole dataset. You should follow the same structure as in this tutorial, but update it according to the papers you are assigned.
+
+## Step 0: Load the packages, specify directories
+
+```{r}
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(text2vec, dplyr, qlcMatrix, kernlab, knitr)
+
+if (!require("splitstackshape")) install.packages("splitstackshape")
+library(splitstackshape)
+
+#setwd("~/Dropbox/Project4_WhoIsWho/doc")
+# here replace it with your own path or manually set it in RStudio
+# to where this rmd file is located
+```
+
+## Step 1: Load and process the data
+
+For each record in the dataset, there are some information we want to extract and store them in a regular form: canonical author id, coauthors, paper title, publication venue title. You may need to find regular matched in the input string vectors by using regex in R. Here is a tutorial for regular expression in R, which might help you <https://rstudio-pubs-static.s3.amazonaws.com/74603_76cd14d5983f47408fdf0b323550b846.html>
+
+```{r}
+gupta = read.csv("/Users/limengchen/Desktop/Spr2017-proj4-team-9-master/data/nameset/A Gupta.csv")
+```
+
+## Step 2: Naive Bayes Parameter Estimations
+
+Following the section 2.2 in the paper, we want to estimate the probabilities used in the naive bayes model.
+Let
+$$
+\begin{aligned}
+P(N|X_i)
+\end{aligned}
+$$
+be the probability that author Xi writes a future paper with no coauthor. We estimate this probability as the proportion of papers that Xi writes alone over all papers Xi writes. 
+
+
+```{r}
+# calculate the number of authors in the dataset
+numauthor = max(gupta$author.ID)
+# calculate number of total papers an author writes
+numpaper = dim(gupta)[1]
+# calculate P(xi), prior probabilities vector
+p_xi = rep(0, numauthor)
+# P(a1|xi), likelihood vector
+p_a1Gxi = rep(0, numauthor)
+# number of paper for each author
+numpaper = rep(0, numauthor)
+# number of coauthors
+numcoauthor = rep(0, numauthor)
+nocoauthor = rep(0, numauthor)
+# list of coauthors
+coauthors = rep("", numauthor)
+# list of seen coauthors
+coauthors.seen = rep("", numauthor)
+
+
+for (i in 1:numauthor)
+{
+  p_xi[i] = mean(gupta$author.ID==i)
+}
+
+
+
+for (i in 1:numauthor)
+{
+  numpaper[i] = sum(gupta$author.ID==i)
+}
+
+
+# find the number of paper author writes alone
+for (i in 1:numauthor)
+{
+  nocoauthor[i] = sum(gupta$coauthor.names==""&gupta$author.ID==i)
+}
+
+# number of coauthor an author has
+numcoauthor = numpaper - nocoauthor
+
+# P(N|xi), probability of writing next paper alone
+p_nocoauthor = nocoauthor/numpaper
+
+
+# extract all coauthors and put them into a list
+coauthor.count = data.frame(cbind(gupta$author.ID, as.character(gupta$coauthor.names)))
+
+colnames (coauthor.count) = c("author.ID", "coauthor.names")
+
+coauthor.count = cSplit(coauthor.count, "coauthor.names", ",", "long")[
+  , list(collaboaration.times = .N), .(author.ID, coauthor.names)][]
+
+
+for (i in 1:numauthor)
+{# problem
+  coauthors.seen[i] = as.data.frame(subset(coauthor.count, coauthor.count$author.ID==i&coauthor.count$collaboaration.times>1)$coauthor.names)
+}
+
+library(reshape2)
+coauthor.matrix = dcast(coauthor.count, author.ID~...) # 26 * 481
+coauthor.matrix[is.na(coauthor.matrix)]=0
+
+# calculate P(seen|Co, xi) and store in coauthor.matrix$seen
+for (i in 1: numauthor)
+{
+  coauthor.matrix$seen[i] = sum(as.numeric(coauthor.matrix[i,-1])>1) / sum(as.numeric(coauthor.matrix[i,-1])>0)
+}
+
+coauthor.matrix$seen
+
+
+# filter only coauthors with collaboration times >1
+seen <- coauthor.count[coauthor.count$collaboaration.times!=1,]
+# convert this count list to a dataframe
+coauthor.seen.matrix <- dcast(seen, author.ID~...) 
+# change NAs to zero
+coauthor.seen.matrix[is.na(coauthor.seen.matrix)]<- 0
+
+# generate an empty matrix with same dim with coauthor.seen.matrix
+A <- data.frame(matrix(rep(0,ncol(coauthor.seen.matrix)*numauthor),nrow = numauthor))
+
+ID <- coauthor.seen.matrix$author.ID
+A <- data.frame(ID, A)
+colnames(A) <- colnames(coauthor.seen.matrix)
+row.names(A) <- coauthor.seen.matrix$author.ID
+
+# calculate P(Aik|Seen,Co, xi) and store in A
+
+
+# remove column titled "NA"
+A <- A[!is.na(names(A))]
+coauthor.seen.matrix = coauthor.seen.matrix[!is.na(names(coauthor.seen.matrix))]
+for (i in 1: nrow(A)) {
+  for (j in 2: ncol(A)) {
+    A[i,j] <- as.numeric(coauthor.seen.matrix[i,j])/sum(as.numeric(coauthor.seen.matrix[i,]))
+  }
+}
+A
+```
+
+
+
+# below are from the tutorial
+
+
+
+
+Here, we remove pre-defined stopwords, the words like “a”, “the”, “in”, “I”, “you”, “on”, etc, which do not provide much useful information. 
+
+Now that we have a vocabulary list, we can construct a document-term matrix.
+```{r}
+vectorizer <- vocab_vectorizer(vocab)
+dtm_train <- create_dtm(it_train, vectorizer)
+```
+
+Now we have DTM and can check its dimensions.
+```{r}
+dim(dtm_train)
+```
+
+As you can see, the DTM has `r nrow(dtm_train)` rows, equal to the number of citations, and `r ncol(dtm_train)`, equal to the number of unique terms excluding stopwords.
+
+Then, we want to use DTM to compute TF-IDF transformation on DTM.
+```{r}
+tfidf <- TfIdf$new()
+dtm_train_tfidf <- fit_transform(dtm_train, tfidf)
+```
+
+## Step 3: Clustering
+
+Following suggestion in the paper, we carry out spectral clustering on the Gram matrix of the citation vectors by using R function `specc()` in *kernlab*. The number of clusters is assumed known as stated in the paper.
+```{r}
+start.time <- Sys.time()
+result_sclust <- specc(as.matrix(dtm_train_tfidf), 
+                       centers=length(unique(AKumar$AuthorID)))
+end.time <- Sys.time()
+time_sclust <- end.time - start.time
+table(result_sclust)
+```
+
+We can also using hierarchical clustering method under the cosine distance. The intention of using a different clustering method is just to let you know how to compare performance between various methods. 
+```{r}
+start.time <- Sys.time()
+docsdissim <- cosSparse(t(dtm_train_tfidf))
+rownames(docsdissim) <- c(1:nrow(dtm_train_tfidf))
+colnames(docsdissim) <- c(1:nrow(dtm_train_tfidf))
+#compute pairwise cosine similarities using cosSparse function in package qlcMatrix
+h <- hclust(as.dist(docsdissim), method = "ward.D")
+result_hclust <- cutree(h,length(unique(AKumar$AuthorID)))
+end.time <- Sys.time()
+time_hclust <- end.time - start.time
+table(result_hclust)
+```
+
+## Step 4: Evaluation
+
+To evaluate the performance of the method, it is required to calculate the degree of agreement between a set of system-output partitions and a set of true partitions. In general, the agreement between two partitioins is measured for a pair of entities within partitions. The basic unit for which pair-wise agreement is assessed is a pair of entities (authors in our case) which belongs to one of the four cells in the following table (Kang et at.(2009)):
+
+\includegraphics[width=500pt]{matching_matrix.png}
+
+Let $M$ be the set of machine-generated clusters, and $G$ the set of gold standard clusters. Then. in the table, for example, $a$ is the number of pairs of entities that are assigned to the same cluster in each of $M$ and $G$. Hence, $a$ and $d$ are interpreted as agreements, and $b$ and $c$ disagreements. When the table is considered as a confusion matrix for a two-class prediction problem, the standard "Precision", "Recall","F1", and "Accuracy" are defined as follows.
+
+$$
+\begin{aligned}
+\mbox{Precision} &=\frac{a}{a+b}\\
+\mbox{Recall}&=\frac{a}{a+c}\\
+\mbox{F1} &=\frac{2\times\mbox{Precision}\times\mbox{Recall}}{\mbox{Precision}+\mbox{Recall}}\\
+\mbox{Accuracy}&=\frac{a+d}{a+b+c+d}
+\end{aligned}
+$$
+
+```{r}
+source('~/Dropbox/Project4_WhoIsWho/lib/evaluation_measures.R')
+matching_matrix_hclust <- matching_matrix(AKumar$AuthorID,result_hclust)
+performance_hclust <- performance_statistics(matching_matrix_hclust)
+matching_matrix_sclust <- matching_matrix(AKumar$AuthorID,result_sclust)
+performance_sclust <- performance_statistics(matching_matrix_sclust)
+compare_df <- data.frame(method=c("sClust","hClust"),
+                         precision=c(performance_sclust$precision, performance_hclust$precision),
+                         recall=c(performance_sclust$recall, performance_hclust$recall),
+                         f1=c(performance_sclust$f1, performance_hclust$f1),
+                         accuracy=c(performance_sclust$accuracy, performance_hclust$accuracy),
+                         time=c(time_sclust,time_hclust))
+kable(compare_df,caption="Comparision of performance for two clustering methods",digits = 2)
+```
+
