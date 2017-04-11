@@ -90,14 +90,21 @@ S_star<-function(){
 }
 
 while ((F(n_hat)-F(n_star))>0.0001){
-  #Implement Hierirchical Clustering 
-h<-hclust(dist(dtm_train_tfidf)*lambda)
-h_result<-cutree(h,length(unique(AKumar$AuthorID)))
+
+#Implement Hierirchical Clustering 
+h<-hclust(dist(dtm_train_tfidf*lambda))
+#record clusters that generated in each step
+h_result<-cutree(h,k=1:length(unique(AKumar$AuthorID)))
 table(h_result)
 plot(h)
+ 
 
+subclust<-matrix(NA,nrow=nrow(h_result))
+for (i in 1:nrow(h_result)){
+   subclust[i]<-cutree(h,k=i)
+}
 
-lambda<-lambda+ifelse(T%in%,1,0)+(F(n_hat)-F(n_star))
+lambda<-lambda+ifelse(T,1,0)+(F(n_hat)-F(n_star))
 }
 
 
