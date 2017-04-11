@@ -44,7 +44,7 @@ AKumar$PaperID <- rownames(AKumar)
 ```
 
 
-## Step 2: Feature Extraction
+## Step 2: Feature Design
 
 ```{r}
 it_train <- itoken(AGupta$Paper, 
@@ -65,24 +65,50 @@ dim(dtm_train)
 tfidf <- TfIdf$new()
 dtm_train_tfidf <- fit_transform(dtm_train, tfidf)
 
-
 ```
 
 ## Step 3: Implementing hierirchical clustering and training parameters 
 
-In this section, our goal is to train the lamda on Hierirchical clustering on our text file by the error driven online training method in the paper5. We use the ranking perceptron to update the parameters.
+#In this section, our goal is to train the lamda on hierirchical clustering on our text file by the error driven online training method in the paper5. We use the ranking perceptron to update the parameters.
 
 ```{r}
-#Initial Parameter lambda
-lambda<-c(1,2,3)
-h<-hclust(as.dist(dtm_train_tfidf),method="ward.D")
+####Initial Parameter lambda
+lambda<-rep(1,ncol(dtm_train_tfidf))
+
+####Define Score Function  
+
+#Based on the paper, we define our own score function S as , and define the true score function S* by the accuracy
+
+#Score function
+s<-function(){
+  
+}
+
+#Ture Score Function
+S_star<-function(){
+  
+}
+
+while ((F(n_hat)-F(n_star))>0.0001){
+  #Implement Hierirchical Clustering 
+h<-hclust(dist(dtm_train_tfidf)*lambda)
 h_result<-cutree(h,length(unique(AKumar$AuthorID)))
+table(h_result)
+plot(h)
+
+
+lambda<-lambda+ifelse(T%in%,1,0)+(F(n_hat)-F(n_star))
+}
+
+
+
+
+
+ 
+
+
+
 
 ```
 
 
-## Step 4: Ranking Perceptron 
-
-```{r}
-
-```
