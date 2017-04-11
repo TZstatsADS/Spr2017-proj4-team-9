@@ -7,7 +7,7 @@ library(stringr)
 ```
 
 ```{r}
-data.lib="/Users/limengchen/Desktop/Spr2017-proj4-team-9-master/data/nameset"
+data.lib="/Users/xuehan/Desktop/Spr2017-proj4-team-9/data/nameset"
 data.files=list.files(path=data.lib, "*.txt")
 
 data.files
@@ -135,7 +135,7 @@ for (i in 1:length(query.list))
     ## Combine data frames of the text files to one big data frame:
     bigDataFrame <- as.data.frame(do.call('rbind', textFileDfList))
     bigDataFrame$author.names = query.list[i]
-    write.csv(bigDataFrame, file = paste("/Users/limengchen/Desktop/Spr2017-proj4-team-9-master/data/nameset/", query.list[i], ".csv", sep=""))
+    write.csv(bigDataFrame, file = paste("/Users/xuehan/Desktop/Spr2017-proj4-team-9/data/nameset/", query.list[i], ".csv", sep=""))
 }
 
 ```
