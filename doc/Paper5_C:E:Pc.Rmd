@@ -10,35 +10,78 @@ This file is currently a template for implementing one of the suggested papers, 
 ## Step 0: Load the packages, specify directories
 
 ```{r}
-
-setwd("/Users/xuehan/Desktop/Spr2017-proj4-team-9/doc/")
+setwd("/Users/xuehan/Desktop/Spr2017-proj4-team-9/")
 # here replace it with your own path or manually set it in RStudio
 # to where this rmd file is located
+
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(text2vec, dplyr, qlcMatrix, kernlab, knitr)
 ```
 
 ## Step 1: Load and process the data
 
 ```{r}
+AKumar <- data.frame(scan("../data/nameset/AKumar.txt",
+                          what = list(Coauthor = "", Paper = "", Journal = ""),
+                          sep=">", quiet=TRUE),stringsAsFactors=FALSE)
+# This need to be modified for different name set
+
+# extract canonical author id befor "_"
+AKumar$AuthorID <- sub("_.*","",AKumar$Coauthor)
+# extract paper number under same author between "_" and first whitespace
+AKumar$PaperNO <- sub(".*_(\\w*)\\s.*", "\\1", AKumar$Coauthor)
+# delete "<" in AKumar$Coauthor, you may need to further process the coauthor
+# term depending on the method you are using
+AKumar$Coauthor <- gsub("<","",sub("^.*?\\s","", AKumar$Coauthor))
+# delete "<" in AKumar$Paper
+AKumar$Paper <- gsub("<","",AKumar$Paper)
+# add PaperID for furthur use, you may want to combine all the nameset files and 
+# then assign the unique ID for all the citations
+AKumar$PaperID <- rownames(AKumar)
+
 
 ```
 
 
-## Step 2: Score Representation: Clusterwise Scoring Function + Clusterwise Classification Training
-
-The package "merDeriv" contains a function that can be used to calculate the clusterwise scoring function. 
+## Step 2: Feature Extraction
 
 ```{r}
+it_train <- itoken(AGupta$Paper, 
+             preprocessor = tolower, 
+             tokenizer = word_tokenizer,
+             ids = AGupta$PaperID,
+             # turn off progressbar because it won't look nice in rmd
+             progressbar = FALSE)
+vocab <- create_vocabulary(it_train, stopwords = c("a", "an", "the", "in", "on",
+                                                   "at", "of", "above", "under"))
+
+#vocab
+
+vectorizer <- vocab_vectorizer(vocab)
+dtm_train <- create_dtm(it_train, vectorizer)
+dim(dtm_train)
+
+tfidf <- TfIdf$new()
+dtm_train_tfidf <- fit_transform(dtm_train, tfidf)
+
 
 ```
 
+## Step 3: Implementing hierirchical clustering and training parameters 
 
-## Step 3: Training Example Generation: Error-Driven Online Training
+In this section, our goal is to train the lamda on Hierirchical clustering on our text file by the error driven online training method in the paper5. We use the ranking perceptron to update the parameters.
 
 ```{r}
+#Initial Parameter lambda
+lambda<-c(1,2,3)
+h<-hclust(as.dist(dtm_train_tfidf),method="ward.D")
+h_result<-cutree(h,length(unique(AKumar$AuthorID)))
 
 ```
 
-## Step 4: Loss Function: Non-Ranking Perceptron 
+
+## Step 4: Ranking Perceptron 
 
 ```{r}
 

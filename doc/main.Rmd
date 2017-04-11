@@ -107,15 +107,15 @@ table(result_sclust)
 
 We can also using hierarchical clustering method under the cosine distance. The intention of using a different clustering method is just to let you know how to compare performance between various methods. 
 ```{r}
-start.time <- Sys.time()
+#start.time <- Sys.time()
 docsdissim <- cosSparse(t(dtm_train_tfidf))
 rownames(docsdissim) <- c(1:nrow(dtm_train_tfidf))
 colnames(docsdissim) <- c(1:nrow(dtm_train_tfidf))
 #compute pairwise cosine similarities using cosSparse function in package qlcMatrix
-h <- hclust(as.dist(docsdissim), method = "ward.D")
+
+h <- kmeans(as.dist(docsdissim), method = "ward.D")
 result_hclust <- cutree(h,length(unique(AKumar$AuthorID)))
-end.time <- Sys.time()
-time_hclust <- end.time - start.time
+#time_hclust <- end.time - start.time 
 table(result_hclust)
 ```
 

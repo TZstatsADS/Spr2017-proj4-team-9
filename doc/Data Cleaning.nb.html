@@ -174,97 +174,22 @@ $(document).ready(function () {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShzdHJpbmdyKVxuYGBgIn0= -->
-<pre class="r"><code>library(stringr)</code></pre>
-<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0YS5saWI9XCIuLi9kYXRhL25hbWVzZXRcIlxuZGF0YS5maWxlcz1saXN0LmZpbGVzKHBhdGg9ZGF0YS5saWIsIFwiKi50eHRcIilcblxuZGF0YS5maWxlc1xuXG4jIyByZW1vdmUgXCIqLnR4dFwiXG5xdWVyeS5saXN0PXN1YnN0cmluZyhkYXRhLmZpbGVzLCBcbiAgICAgICAgICAgICAgICAgICAgIDEsIG5jaGFyKGRhdGEuZmlsZXMpLTQpXG5cbnF1ZXJ5Lmxpc3RcblxuIyMgYWRkIGEgc3BhY2VcbnF1ZXJ5Lmxpc3Q9cGFzdGUoc3Vic3RyaW5nKHF1ZXJ5Lmxpc3QsIDEsIDEpLCBcbiAgICAgICAgICAgICAgICAgXCIgXCIsIFxuICAgICAgICAgICAgICAgICBzdWJzdHJpbmcocXVlcnkubGlzdCwgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAyLCBuY2hhcihxdWVyeS5saXN0KSksXG4gICAgICAgICAgICAgICAgIHNlcD1cIlwiXG4gICAgICAgICAgICAgICAgIClcblxucXVlcnkubGlzdFxuXG5gYGAifQ== -->
-<pre class="r"><code>data.lib=&quot;../data/nameset&quot;
-data.files=list.files(path=data.lib, &quot;*.txt&quot;)
-
-data.files
-
-## remove &quot;*.txt&quot;
-query.list=substring(data.files, 
-                     1, nchar(data.files)-4)
-
-query.list
-
-## add a space
-query.list=paste(substring(query.list, 1, 1), 
-                 &quot; &quot;, 
-                 substring(query.list, 
-                           2, nchar(query.list)),
-                 sep=&quot;&quot;
-                 )
-
-query.list
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucXVlcnkubGlzdFxuXG5gYGAifQ== -->
+<pre class="r"><code>query.list
 </code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcIkEgR3VwdGFcIiAgICBcIkEgS3VtYXJcIiAgICBcIkMgQ2hlblwiICAgICBcIkQgSm9obnNvblwiICBcIkogTGVlXCIgICAgICBcIkogTWFydGluXCIgICBcIkogUm9iaW5zb25cIlxuIFs4XSBcIkogU21pdGhcIiAgICBcIksgVGFuYWthXCIgICBcIk0gQnJvd25cIiAgICBcIk0gSm9uZXNcIiAgICBcIk0gTWlsbGVyXCIgICBcIlMgTGVlXCIgICAgICBcIlkgQ2hlblwiICAgIFxuIn0= -->
+<pre><code> [1] &quot;A Gupta&quot;    &quot;A Kumar&quot;    &quot;C Chen&quot;     &quot;D Johnson&quot;  &quot;J Lee&quot;      &quot;J Martin&quot;   &quot;J Robinson&quot;
+ [8] &quot;J Smith&quot;    &quot;K Tanaka&quot;   &quot;M Brown&quot;    &quot;M Jones&quot;    &quot;M Miller&quot;   &quot;S Lee&quot;      &quot;Y Chen&quot;    </code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZi5saW5lLnByb2M9ZnVuY3Rpb24obGluLCBuYW0ucXVlcnk9XCIuXCIpe1xuXG4gICMgcmVtb3ZlIHVud2FudGVkIGNoYXJhY3RlcnNcbiAgY2hhcl9ub3RhbGxvd2VkIDwtIFwiXFxcXEAjJCVeJj9cIiAjIGNoYXJhY3RlcnMgdG8gYmUgcmVtb3ZlZFxuICBsaW4uc3RyPXN0cl9yZXBsYWNlKGxpbiwgY2hhcl9ub3RhbGxvd2VkLCBcIlwiKVxuXG4gICMgZ2V0IGF1dGhvciBpZFxuICBsaW4uc3RyPXN0cnNwbGl0KGxpbi5zdHIsIFwiX1wiKVtbMV1dXG4gIGF1dGhvcl9pZD1hcy5udW1lcmljKGxpbi5zdHJbMV0pXG4gIFxuICAjIGdldCBwYXBlciBpZFxuICBsaW4uc3RyPWxpbi5zdHJbMl1cbiAgcGFwZXJfaWQ9c3Ryc3BsaXQobGluLnN0ciwgXCIgXCIpW1sxXV1bMV1cbiAgbGluLnN0cj1zdWJzdHJpbmcobGluLnN0ciwgbmNoYXIocGFwZXJfaWQpKzEsIG5jaGFyKGxpbi5zdHIpKVxuICBwYXBlcl9pZD1hcy5udW1lcmljKHBhcGVyX2lkKVxuICBcbiAgIyBnZXQgY29hdXRob3IgbGlzdFxuICBsaW4uc3RyPXN0cnNwbGl0KGxpbi5zdHIsIFwiPD5cIilbWzFdXVxuICBjb2F1dGhvcl9saXN0PXN0cnNwbGl0KGxpbi5zdHJbMV0sIFwiO1wiKVtbMV1dXG5cbiAgI3ByaW50KGxpbi5zdHIpXG4gIGZvcihqIGluIDE6bGVuZ3RoKGNvYXV0aG9yX2xpc3QpKXtcbiAgICAgIGlmKG5jaGFyKGNvYXV0aG9yX2xpc3Rbal0pPjApe1xuICAgICAgICBuYW0gPSBzdHJzcGxpdChjb2F1dGhvcl9saXN0W2pdLCBcIiBcIilbWzFdXVxuICAgICAgICBpZihuY2hhcihuYW1bMV0pPjApe1xuICAgICAgICAgIGZpcnN0LmluaT1zdWJzdHJpbmcobmFtWzFdLCAxLCAxKVxuICAgICAgICB9ZWxzZXtcbiAgICAgICAgICBmaXJzdC5pbmk9c3Vic3RyaW5nKG5hbVsyXSwgMSwgMSlcbiAgICAgICAgfVxuICAgICAgfVxuICAgICAgbGFzdC5uYW1lPW5hbVtsZW5ndGgobmFtKV1cbiAgICAgIG5hbS5zdHIgPSBwYXN0ZShmaXJzdC5pbmksIGxhc3QubmFtZSlcbiAgICAgIGNvYXV0aG9yX2xpc3Rbal09bmFtLnN0clxuICB9XG4gIFxuICBtYXRjaF9pbmQgPSBjaGFybWF0Y2gobmFtLnF1ZXJ5LCBjb2F1dGhvcl9saXN0LCBub21hdGNoPS0xKVxuICBcbiAgI3ByaW50KG5hbS5xdWVyeSlcbiAgI3ByaW50KGNvYXV0aG9yX2xpc3QpXG4gICNwcmludChtYXRjaF9pbmQpXG4gIFxuICBpZihtYXRjaF9pbmQ+MCl7XG4gICAgXG4gICAgY29hdXRob3JfbGlzdD1jb2F1dGhvcl9saXN0Wy1tYXRjaF9pbmRdXG4gIH1cbiAgXG4gIHBhcGVyX3RpdGxlPWxpbi5zdHJbMl1cbiAgam91cm5hbF9uYW1lPWxpbi5zdHJbM11cbiAgXG4gIGxpc3QoYXV0aG9yX2lkLCBcbiAgICAgICBwYXBlcl9pZCwgXG4gICAgICAgY29hdXRob3JfbGlzdCwgXG4gICAgICAgcGFwZXJfdGl0bGUsIFxuICAgICAgIGpvdXJuYWxfbmFtZSlcbn1cbmBgYCJ9 -->
-<pre class="r"><code>f.line.proc=function(lin, nam.query=&quot;.&quot;){
-
-  # remove unwanted characters
-  char_notallowed &lt;- &quot;\\@#$%^&amp;?&quot; # characters to be removed
-  lin.str=str_replace(lin, char_notallowed, &quot;&quot;)
-
-  # get author id
-  lin.str=strsplit(lin.str, &quot;_&quot;)[[1]]
-  author_id=as.numeric(lin.str[1])
-  
-  # get paper id
-  lin.str=lin.str[2]
-  paper_id=strsplit(lin.str, &quot; &quot;)[[1]][1]
-  lin.str=substring(lin.str, nchar(paper_id)+1, nchar(lin.str))
-  paper_id=as.numeric(paper_id)
-  
-  # get coauthor list
-  lin.str=strsplit(lin.str, &quot;&lt;&gt;&quot;)[[1]]
-  coauthor_list=strsplit(lin.str[1], &quot;;&quot;)[[1]]
-
-  #print(lin.str)
-  for(j in 1:length(coauthor_list)){
-      if(nchar(coauthor_list[j])&gt;0){
-        nam = strsplit(coauthor_list[j], &quot; &quot;)[[1]]
-        if(nchar(nam[1])&gt;0){
-          first.ini=substring(nam[1], 1, 1)
-        }else{
-          first.ini=substring(nam[2], 1, 1)
-        }
-      }
-      last.name=nam[length(nam)]
-      nam.str = paste(first.ini, last.name)
-      coauthor_list[j]=nam.str
-  }
-  
-  match_ind = charmatch(nam.query, coauthor_list, nomatch=-1)
-  
-  #print(nam.query)
-  #print(coauthor_list)
-  #print(match_ind)
-  
-  if(match_ind&gt;0){
-    
-    coauthor_list=coauthor_list[-match_ind]
-  }
-  
-  paper_title=lin.str[2]
-  journal_name=lin.str[3]
-  
-  list(author_id, 
-       paper_id, 
-       coauthor_list, 
-       paper_title, 
-       journal_name)
-}</code></pre>
-<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
