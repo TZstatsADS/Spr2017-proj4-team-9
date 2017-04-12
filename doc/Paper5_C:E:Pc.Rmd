@@ -81,22 +81,50 @@ dtm_train_tfidf<-cbind(dtm_train_tfidf,as.numeric(AKumar$AuthorID))
 #Compute distance between two rows (pair of featured citations) 
 distance<-matrix(NA,nrow=nrow(dtm_train_tfidf[,-1]),ncol=nrow(dtm_train_tfidf[,-1]))
 
+
 for (i in 1:nrow(dtm_train_tfidf[,-1])){
   for (j in 1:nrow(dtm_train_tfidf[,-1])){
       distance[i,j]<-sum((dtm_train_tfidf[i,-1]-dtm_train_tfidf[j,-1])^2)
   }
 }
 
+#Set diagonal element to a very large number because the diagonal entries represents two same documents
+for(i in 1:nrow(dtm_train_tfidf[,-1])) {
+  distance[i,i] <- 999
+}
 
+row.ind<-vector(length=length(which(distance==0))/2)
+col.ind<-vector(length=length(which(distance==0))/2)          
 
+for (m in 1: length(which(distance==0))/2){
+  row.ind[m]<-floor(which(distance==0)[m]/244)+1
+  col.ind[m]<-5214-(row[m]-1)*244
+  if (dtm_train_tfidf[row.ind[m],nrow(dtm_train_tfidf)-1]==dtm_train_tfidf[col.ind[m],nrow(dtm_train_tfidf)-1]){
+    S[m]<-dist(dtm_train_tfidf[row.ind[m],-1],dtm_train_tfidf[row.ind[m],-1])
+  }
+  else{
+    print(dtm_train_tfidf[row.ind[m]],dtm_train_tfidf[col.ind[m]])
+  }
+}
 
-#find the minimum distance and group two elements with the shortest distance
-ind<-which(distance == min(distance),arr.ind=T)
-ind
+row.ind
+col.ind
+
+#Check whether the two paper share the same author
+
+compare.author.id<-vector
+for (a in 1:length(which(distance==0))/2){
+  
+  compare.author.id[a]<-dtm_train_tfidf[row.ind[a],nrow(dtm_train_tfidf)-1]==dtm_train_tfidf[col.ind[a],nrow(dtm_train_tfidf)-1]
+}
+
+ 
 
 #Based on the paper, we define our own score S by the negative of the distance, because high score=>high accuracy
 #Find the pair with highest S and group them together
-S<--distance
+S<-(-distance)
+ind<-matrix(which(S == max(S),arr.ind=T),ncol=2,byrow=F)
+ind<-ind[ind[,1]!=ind[,2]]
 S[which.max(S)]
 
 #Find the ture score S*:=accuracy 
