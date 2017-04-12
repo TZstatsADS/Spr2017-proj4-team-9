@@ -27,6 +27,9 @@ AKumar <- data.frame(scan("../data/nameset/AKumar.txt",
                           sep=">", quiet=TRUE),stringsAsFactors=FALSE)
 # This need to be modified for different name set
 
+#train<-function(dataset,lambda){
+########change all AKumar to dataset
+
 # extract canonical author id befor "_"
 AKumar$AuthorID <- sub("_.*","",AKumar$Coauthor)
 # extract paper number under same author between "_" and first whitespace
@@ -41,16 +44,14 @@ AKumar$Paper <- gsub("<","",AKumar$Paper)
 AKumar$PaperID <- rownames(AKumar)
 
 
-```
 
 
 ## Step 2: Feature Design
 
-```{r}
-it_train <- itoken(AGupta$Paper, 
+it_train <- itoken(AKumar$Paper, 
              preprocessor = tolower, 
              tokenizer = word_tokenizer,
-             ids = AGupta$PaperID,
+             ids = AKumar$PaperID,
              # turn off progressbar because it won't look nice in rmd
              progressbar = FALSE)
 vocab <- create_vocabulary(it_train, stopwords = c("a", "an", "the", "in", "on",
@@ -65,57 +66,80 @@ dim(dtm_train)
 tfidf <- TfIdf$new()
 dtm_train_tfidf <- fit_transform(dtm_train, tfidf)
 
-```
 
 ## Step 3: Implementing hierirchical clustering and training parameters 
 
 #In this section, our goal is to train the lamda on hierirchical clustering on our text file by the error driven online training method in the paper5. We use the ranking perceptron to update the parameters.
 
-```{r}
-####Initial Parameter lambda
+
+####Initialize Parameter lambda
 lambda<-rep(1,ncol(dtm_train_tfidf))
 
-####Define Score Function  
+#Add the Author's ID as the label column to the feature matrix for future use
+dtm_train_tfidf<-cbind(dtm_train_tfidf,as.numeric(AKumar$AuthorID))
 
-#Based on the paper, we define our own score function S as , and define the true score function S* by the accuracy
+#Compute distance between two rows (pair of featured citations) 
+distance<-matrix(NA,nrow=nrow(dtm_train_tfidf[,-1]),ncol=nrow(dtm_train_tfidf[,-1]))
 
-#Score function
-s<-function(){
+for (i in 1:nrow(dtm_train_tfidf[,-1])){
+  for (j in 1:nrow(dtm_train_tfidf[,-1])){
+      distance[i,j]<-sum((dtm_train_tfidf[i,-1]-dtm_train_tfidf[j,-1])^2)
+  }
+}
+
+
+
+
+#find the minimum distance and group two elements with the shortest distance
+ind<-which(distance == min(distance),arr.ind=T)
+ind
+
+#Based on the paper, we define our own score S by the negative of the distance, because high score=>high accuracy
+#Find the pair with highest S and group them together
+S<--distance
+S[which.max(S)]
+
+#Find the ture score S*:=accuracy 
+
+S_star<-sum(dtm_train_tfidf[,ncol(dtm_train_tfidf)]==dtm_train_tfidf[,ncol(dtm_train_tfidf)])
+
+while(){
   
 }
 
-#Ture Score Function
-S_star<-function(){
-  
-}
-
-while ((F(n_hat)-F(n_star))>0.0001){
-
-#Implement Hierirchical Clustering 
-h<-hclust(dist(dtm_train_tfidf*lambda))
-#record clusters that generated in each step
-h_result<-cutree(h,k=1:length(unique(AKumar$AuthorID)))
-table(h_result)
-plot(h)
- 
-
-subclust<-matrix(NA,nrow=nrow(h_result))
-for (i in 1:nrow(h_result)){
-   subclust[i]<-cutree(h,k=i)
-}
-
+#Update parameters
 lambda<-lambda+ifelse(T,1,0)+(F(n_hat)-F(n_star))
+
+
 }
-
-
-
-
-
- 
-
-
-
-
 ```
 
+
+
+
+
+##First try
+```{r}
+#Implement Hierirchical Clustering 
+h<-hclust(dist(dtm_train_tfidf*lambda),method="median")
+#Check the result
+h_result<-cutree(h,k=length(unique(AKumar$AuthorID)))
+table(h_result)
+plot(h_result)
+
+#Record clusters that generated in each step
+#Based on nature of the hierirchical clustering, we need to record clusters from the bottom of the "cutree()" function 
+
+subclust<-list()
+for (i in 1:nrow(dtm_train_tfidf*lambda)){
+  subclust[[i]]<-cutree(h,k=nrow(dtm_train_tfidf*lambda)-i+1)
+}
+
+
+
+
+
+
+lambda<-lambda+ifelse(T,1,0)+(F(n_hat)-F(n_star))
+```
 
