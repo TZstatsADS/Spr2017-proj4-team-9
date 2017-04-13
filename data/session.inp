@@ -1,0 +1,6 @@
+# Log started 2017-04-12 17:06
+# Record of session commands.  Please note that this will
+# likely require editing if it is to be run as a script.
+open /home/ifrit/Workspace/rexa-coref-data/authors.csv
+summary abstract altauthorlist altTitle authorinfocus authorinfocusscore \
+  authorlist body editor email institution journal keyword title year
