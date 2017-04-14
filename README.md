@@ -7,14 +7,14 @@ Term: Spring 2017
 + Team #
 + Projec title: Lorem ipsum dolor sit amet
 + Team members
-	+ team member 1
-	+ team member 2
-	+ team member 3
-	+ team member 4
-	+ team member 5
-+ Project summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	+ Xuehan Liu
+	+ Hongyi Zhu
+	+ Mengchen Li
+	+ Imorze Shaheen
+	+ Nikita Bondarenko
++ Project summary: In this project, we compared two clustering algorithms naive bayes, in paper2, and error driven online training combining with hierirchical clustering. There are two main RMarkdown files, on for each paper. Each pdf contains the procedure and evaluation for that algorithm. The overall main file "main.rmd" contains the comparison for two algorithms.   
 	
-**Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contributions statement. 
+**Contribution statement**: ([default](doc/a_note_on_contributions.md)) Xuehan finished all coding for paper 5 as well as the presentaion. Hongyi completed major parts of coding for paper2, while Mengchen helped him with coding and debugging. Imorze try to code both paper in Python and creating PPT for presentaion. Nikita did NOT contribute to this project at all. 
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 

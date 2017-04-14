@@ -10,7 +10,7 @@ In this file, we illustrate our step-by-step procedure on the error driven onlin
 ## Step 0: Load the packages, specify directories
 
 ```{r}
-setwd("/Users/xuehan/Desktop/Spr2017-proj4-team-9/")
+setwd("~/Desktop/Spr2017-proj4-team-9")
 # here replace it with your own path or manually set it in RStudio
 # to where this rmd file is located
 
@@ -19,7 +19,7 @@ if (!require("pacman")) install.packages("pacman")
 pacman::p_load(text2vec, dplyr, qlcMatrix, kernlab, knitr)
 
 #Create useable csv for each name set
-source("../lib/data cleaner.R")
+source("~/Desktop/Spr2017-proj4-team-9/lib/data cleaner.R")
 ```
 
 ## Step 1: Load and process the data
@@ -206,4 +206,5 @@ Accuracy<-F1<-c(performance_hclust.AK$accuracy,performance_hclust$accuracy,perfo
 
 #Final Performance Summary combining all 14 namesets.
 error.driven<-data.frame(Precision=mean(Precision),Recall=mean(Recall),F1=mean(F1),Accuracy=mean(Accuracy))
+error.driven
 ```
