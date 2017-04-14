@@ -5,7 +5,7 @@
 Term: Spring 2017
 
 + Team #
-+ Projec title: Lorem ipsum dolor sit amet
++ Projec title: Who Is Who -- Entity Resolution
 + Team members
 	+ Xuehan Liu
 	+ Hongyi Zhu
