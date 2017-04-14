@@ -1,0 +1,68 @@
+---
+title: "Evaluating Naive Bayes and Error-Driven Machine Learning With Ranking-Loss Function For Entity Resolution "
+by: Xuehan Liu, Imroze Shaheen, Hongyli, Mencheng Li
+runtime: shiny
+output: ioslides_presentation
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Entity Resolution
+
+Entity Resolution refers to the process of identifying multiple references to the same object and distinguishing them from mentions of different objects.
+
+
+## Overview of Results
+
+ID | Function | Description | Precision  | Recall| F1  | AUC
+---|---------|-------------|----------|-------------
+1 | Error-Driven Machine Learnign With Ranking Loss Function | [ml_"insert name"] | 0.7 | 0.7| 0.7| 0.7
+6 | Naive Bayes | [ml_naive_bayes] | ? | ?| ?| ?
+
+
+## Methods of Evaluation
+
+- F1  
+- AUC
+- Pairwise Precision, Recall, and F1.Using Pairs as the samples, the pairwise precision and recall metric functions follow conventionalmachine learning definitions. The harmonic mean of these metrics leads to the most frequently used entity resolution metric, pairwiseF1. All these metrics are bound from [0,1]. 
+
+
+
+
+
+## Interactive Plot
+Insert graph
+```{r eruptions}
+inputPanel(
+  selectInput("n_breaks", label = "Number of bins:",
+              choices = c(10, 20, 35, 50), selected = 20),
+  
+  sliderInput("bw_adjust", label = "Bandwidth adjustment:",
+              min = 0.2, max = 2, value = 1, step = 0.2)
+)
+
+renderPlot({
+  hist(faithful$eruptions, probability = TRUE, breaks = as.numeric(input$n_breaks),
+       xlab = "Duration (minutes)", main = "Geyser eruption duration")
+  
+  dens <- density(faithful$eruptions, adjust = input$bw_adjust)
+  lines(dens, col = "blue")
+})
+```
+
+## Methods of Evaluation
+
+
+
+## R Output
+
+```{r cars}
+library(ROCR)
+data(ROCR.simple)
+```
+
+
