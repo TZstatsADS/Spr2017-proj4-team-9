@@ -1,5 +1,6 @@
 ---
 title: "Project 4 data cleaning"
+author: "Hongyi Zhu"
 output: html_notebook
 ---
 ```{r}

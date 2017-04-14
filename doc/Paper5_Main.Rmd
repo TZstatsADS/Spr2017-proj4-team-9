@@ -5,7 +5,7 @@ date: "04/05/2017"
 output: pdf_document
 ---
 
-In this file, we illustrate our step-by-step procedure on the error driven online training algorithm on the nameset AKumar.txt (step0 - step3). Then we created a function called error.driven.train(), based on the step-by-step procedure described from step0-step3, and saved it in the "lib" folder. In step4, we implement the algorithm to all namesets provided and report the trained parameters.
+In this file, we illustrate our step-by-step procedure on the error driven online training algorithm on the nameset AKumar.txt (step0 - step3). We implement the algorithm on all name sets based on the step-by-step procedure described from step0-step3, and saved it in the "lib" folder. In step4, we report the evaluation to all namesets provided.
 
 ## Step 0: Load the packages, specify directories
 
@@ -17,29 +17,30 @@ setwd("/Users/xuehan/Desktop/Spr2017-proj4-team-9/")
 
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(text2vec, dplyr, qlcMatrix, kernlab, knitr)
+
+#Create useable csv for each name set
+source("../lib/data cleaner.R")
 ```
 
 ## Step 1: Load and process the data
 
 ```{r}
-
 AKumar <- data.frame(scan("../data/nameset/AKumar.txt",
                           what = list(Coauthor = "", Paper = "", Journal = ""),
                           sep=">", quiet=TRUE),stringsAsFactors=FALSE)
 
-
 # extract canonical author id befor "_"
-AKumar$AuthorID <- sub("_.*","",AKumar$Coauthor)
-# extract paper number under same author between "_" and first whitespace
-AKumar$PaperNO <- sub(".*_(\\w*)\\s.*", "\\1", AKumar$Coauthor)
-# delete "<" in AKumar$Coauthor, you may need to further process the coauthor
-# term depending on the method you are using
-AKumar$Coauthor <- gsub("<","",sub("^.*?\\s","", AKumar$Coauthor))
-# delete "<" in AKumar$Paper
-AKumar$Paper <- gsub("<","",AKumar$Paper)
-# add PaperID for furthur use, you may want to combine all the nameset files and 
-# then assign the unique ID for all the citations
-AKumar$PaperID <- rownames(AKumar)
+  AKumar$AuthorID <- sub("_.*","", AKumar$Coauthor)
+  # extract paper number under same author between "_" and first whitespace
+  AKumar$PaperNO <- sub(".*_(\\w*)\\s.*", "\\1",  AKumar$Coauthor)
+  # delete "<" in AKumar$Coauthor, you may need to further process the coauthor
+  # term depending on the method you are using
+  AKumar$Coauthor <- gsub("<","",sub("^.*?\\s","",  AKumar$Coauthor))
+  # delete "<" in AKumar$Paper
+  AKumar$Paper <- gsub("<","", AKumar$Paper)
+  # add PaperID for furthur use, you may want to combine all the nameset files and 
+  # then assign the unique ID for all the citations
+   AKumar$PaperID <- rownames( AKumar)
 
 ```
 
@@ -73,7 +74,7 @@ dtm_train_tfidf <- fit_transform(dtm_train, tfidf)
 ## Step 3: Implementing hierirchical clustering and training parameters 
 In this section, our goal is to train the lambda on hierirchical clustering on our text file AKumar by the error driven online training method introduced in the paper5. We use the ranking perceptron to update the parameters.
 
-```{r}
+```{r,warning=FALSE}
 ####Initialize Parameter lambda
 lambda<-rep(1,nrow(dtm_train_tfidf))
 
@@ -97,7 +98,7 @@ T_star<-dtm_train_tfidf[,ncol(dtm_train_tfidf)]
 
 K=14
 k=1
-lambda1 <- matrix(NA, nrow = 244, ncol = 14)
+lambda1 <- matrix(NA, nrow = nrow(AKumar), ncol = K)
 S1 <- numeric(K)
 acc <- numeric(K)
 while (k<(K+1)){
@@ -146,79 +147,63 @@ S1[k] <- S
 acc[k] <- mean(label == h_result)    
 k=k+1
 }
-plot(acc)
-  
-T_hat<-h_result
 
-#Update lambda
-
-for (i in 1:length(T_star)){
-  if (T_hat[i]!=T_star[i]){
-    lambda[i]<-lambda[i]-((S-S_star)/S) #!!!
-  }
-  else {
-    lambda[i]<-lambda[i]
-  }
-}
-k=k+1
-#  return(lambda)
+#plot(acc)
+#lambda1[,K]
+h_new<-hclust(dist(dtm_train_tfidf*lambda))
+T_hat_overall<-cutree(h_new,k=unique(AKumar$AuthorID))
 
 ```
 
-## Step 4: Implement the error driven training algorithm on all name sets.
 
-```{r}
-source("../lib/error.driven.train.R")
-#######somthing wrong with reading in the following data
-AGupta <- data.frame(scan("../data/nameset/AGupta.txt",
-                          what = list(Coauthor = "", Paper = "", Journal = ""),
-                          sep=">", quiet=TRUE),stringsAsFactors=FALSE)
-#######somthing wrong with reading in the following data
-CChen <- data.frame(scan("../data/nameset/CChen.txt",
-                          what = list(Coauthor = "", Paper = "", Journal = ""),
-                          sep=">", quiet=TRUE),stringsAsFactors=FALSE)
-DJohnson<- data.frame(scan("../data/nameset/DJohnson.txt",
-                          what = list(Coauthor = "", Paper = "", Journal = ""),
-                          sep=">", quiet=TRUE),stringsAsFactors=FALSE)
-#######somthing wrong with reading in the following data
-JLee<- data.frame(scan("../data/nameset/JLee.txt",
-                          what = list(Coauthor = "", Paper = "", Journal = ""),
-                          sep=">", quiet=TRUE),stringsAsFactors=FALSE)
+## Step 5: Evaluation on all dataset 
 
-JMartin<- data.frame(scan("../data/nameset/JMartin.txt",
-                          what = list(Coauthor = "", Paper = "", Journal = ""),
-                          sep=">", quiet=TRUE),stringsAsFactors=FALSE)
-JRobinson<- data.frame(scan("../data/nameset/JRobinson.txt",
-                          what = list(Coauthor = "", Paper = "", Journal = ""),
-                          sep=">", quiet=TRUE),stringsAsFactors=FALSE)
+```{r,warning=FALSE}
+source('../lib/evaluation_measures.R') 
+source('../lib/data cleaner.R')
 
-JSmith<- data.frame(scan("../data/nameset/JSmith.txt",
-                          what = list(Coauthor = "", Paper = "", Journal = ""),
-                          sep=">", quiet=TRUE),stringsAsFactors=FALSE)
-#######somthing wrong with reading in the following data
-KTanaka<- data.frame(scan("../data/nameset/KTanaka.txt",
-                          what = list(Coauthor = "", Paper = "", Journal = ""),
-                          sep=">", quiet=TRUE),stringsAsFactors=FALSE)
-MBrown<- data.frame(scan("../data/nameset/MBrown.txt",
-                          what = list(Coauthor = "", Paper = "", Journal = ""),
-                          sep=">", quiet=TRUE),stringsAsFactors=FALSE)
-MJones<- data.frame(scan("../data/nameset/MJones.txt",
-                          what = list(Coauthor = "", Paper = "", Journal = ""),
-                          sep=">", quiet=TRUE),stringsAsFactors=FALSE)
-#######somthing wrong with reading in the following data
-MMiller<- data.frame(scan("../data/nameset/MMiller.txt",
-                          what = list(Coauthor = "", Paper = "", Journal = ""),
-                          sep=">", quiet=TRUE),stringsAsFactors=FALSE)
+#performance statistics for AKumar
+matching_matrix_hclust <- matching_matrix(AKumar$AuthorID,T_hat_overall) 
+performance_hclust.AK <- performance_statistics(matching_matrix_hclust)
+performance_hclust.AK
 
-SLee<- data.frame(scan("../data/nameset/SLee.txt",
-                          what = list(Coauthor = "", Paper = "", Journal = ""),
-                          sep=">", quiet=TRUE),stringsAsFactors=FALSE)
+source('../lib/Y Chen.R') 
+performance_hclust
+source('../lib/KTanaka.R')
+performance_hclust.KT
+source('../lib/JSmith.R')
+performance_hclust.JS
+source('../lib/MMiller.R')
+performance_hclust.MM
+source('../lib/MBrown.R')
+performance_hclust.MB
+source('../lib/MJones.R')
+performance_hclust.MJ
+source('../lib/JLee.R')
+performance_hclust.JL
+source('../lib/JMartin.R')
+performance_hclust.JM
+source('../lib/JRobinson.R')
+performance_hclust.JR
+source('../lib/DJohnson.R')
+performance_hclust.DJ
+source('../lib/CChen.R')
+performance_hclust.CC
+source('../lib/AGupta.R')
+performance_hclust.AG
 
-YChen<- data.frame(scan("../data/nameset/YChen.txt",
-                          what = list(Coauthor = "", Paper = "", Journal = ""),
-                          sep=">", quiet=TRUE),stringsAsFactors=FALSE)
+#compute average of the all four performance statistics
+Precision<-c(performance_hclust.AK$precision,performance_hclust$precision,performance_hclust.MB$precision,performance_hclust.KT$precision,performance_hclust.JS$precision,performance_hclust.MM$precision,performance_hclust.MJ$precision,performance_hclust.JL$precision,performance_hclust.JM$precision,performance_hclust.JR$precision,performance_hclust.DJ$precision,performance_hclust.CC$precision,performance_hclust.AG$precision)
 
-# This need to be modified for different name set
+Recall<-c(performance_hclust.AK$recall,performance_hclust$recall,performance_hclust.MB$recall,performance_hclust.KT$recall,performance_hclust.JS$recall,performance_hclust.MM$recall,performance_hclust.MJ$recall,performance_hclust.JL$recall,performance_hclust.JM$recall,performance_hclust.JR$recall,performance_hclust.DJ$recall,performance_hclust.CC$recall,performance_hclust.AG$recall)
+
+
+F1<-c(performance_hclust.AK$f1,performance_hclust$f1,performance_hclust.MB$f1,performance_hclust.KT$f1,performance_hclust.JS$f1,performance_hclust.MM$f1,performance_hclust.MJ$f1,performance_hclust.JL$f1,performance_hclust.JM$f1,performance_hclust.JR$f1,performance_hclust.DJ$f1,performance_hclust.CC$f1,performance_hclust.AG$f1)
+
+
+
+Accuracy<-F1<-c(performance_hclust.AK$accuracy,performance_hclust$accuracy,performance_hclust.MB$accuracy,performance_hclust.KT$accuracy,performance_hclust.JS$accuracy,performance_hclust.MM$accuracy,performance_hclust.MJ$accuracy,performance_hclust.JL$accuracy,performance_hclust.JM$accuracy,performance_hclust.JR$accuracy,performance_hclust.DJ$accuracy,performance_hclust.CC$accuracy,performance_hclust.AG$accuracy)
+
+#Final Performance Summary combining all 14 namesets.
+error.driven<-data.frame(Precision=mean(Precision),Recall=mean(Recall),F1=mean(F1),Accuracy=mean(Accuracy))
 ```
-
-## Step 5: Evaluation
