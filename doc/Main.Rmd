@@ -30,7 +30,7 @@ library(reshape2)
 
 ## Step 1: Load and process the data
 
-Please run "data cleaner.Rmd" first so that the .txt files are all in .csv format for processing.
+Please run "data cleaner.Rmd" in the doc folder first so that the .txt files are all in .csv format for processing. The "data cleaner.Rmd" is based on professor Tian's "Project 4 Data Cleaning" code posted on Piazza with one modification: the output is written as CSV into the data folder. 
 
 ```{r}
 dat = read.csv("../data/nameset/A Kumar.csv")
@@ -53,7 +53,8 @@ rm(sub, sam, i, sam_index, antisam)
 
 ## Step 2: Setting up variable names for Naive Bayes
 
-These are placeholder variables used for the subsequent calculations.
+These are placeholder variables used for the subsequent calculations. We will use some more variables later, but we initialize some key variables here for now. 
+
 
 ```{r}
 
@@ -91,8 +92,7 @@ These are placeholder variables used for the subsequent calculations.
   
   
 ## Step 3: Calculate the likelihood of seeing feature one, coauthors.
-These values are the log of conditional probabilities of author Xi collaborating with each and every one of the coauthors.
-  
+These values are the log of conditional probabilities of author Xi collaborating with each and every one of the coauthors. As prescribed in the paper, we follow the formula defined in the algorithm to calculate, or rather "estimate" the probabilities used for the Naive Bayes. Coauthor names are further divided into "seen" and "unseen" coauthors, with "seen" defined as a coauthor whose collaboration times with a specific author is at least two.   
 ```{r}
   
   # calculate number of paper each author.ID writes
@@ -224,7 +224,7 @@ These values are the log of conditional probabilities of author Xi collaborating
   # P(Unseen|Co,Xi)
   p_unseen.co <- 1-p_seen.co
   
-  ############################################################################
+  
   
   
   # Caculate P(A1k|Xi)
@@ -284,8 +284,7 @@ These values are the log of conditional probabilities of author Xi collaborating
 ```
   
 ## Step 4: Calculate the likelihood of seeing feature two, keywords in paper title.
-These values are the log of conditional probabilities of author Xi writing a paper with a specific keyword in the title.
-
+These values are the log of conditional probabilities of author Xi writing a paper with a specific keyword in the title. Similarly, we estimate the probabilities used in the Naive Bayes algorithm by the formula given in the paper. Without any further instructions from the paper other than conditional independence, we decided not to split the keywords in the paper title any further into different categories as in the case with coauthors (seen/unseen). 
 ```{r}
   # extract all paper titles and put them into a list
   paper.count <- data.frame(cbind(train$author.ID, as.character(train$paper.title)))
@@ -359,7 +358,7 @@ These values are the log of conditional probabilities of author Xi writing a pap
   
   
 ## Step 5: Calculate the likelihood of seeing feature two, keywords in journal title.
-These values are the log of conditional probabilities of author Xi publishing in a journal with a name that includes a keyword.
+These values are the log of conditional probabilities of author Xi publishing in a journal with a name that includes a keyword. Similar to the keywords from paper title, we decided not to split the keywords from the journal title further into different categories. 
 
   
 ```{r}
@@ -429,7 +428,7 @@ These values are the log of conditional probabilities of author Xi publishing in
   
   
 ## Step 6: Combining results into one dataframe
-Here the dataframe "df" has author ID as rows, and the three features: coauthor, paper title, and journal title as columns.
+Here the dataframe "df" has author ID as rows, and the three features: coauthor, paper title, and journal title as columns. This is the fruit of our "training". Now we have the matrix containing all combination of author ID with each and every one of the features: coauthor names, paper title, and journal title. The values in the matrix are the log of the conditional probability of observing the specific feature given the author ID.
 
 
 ```{r results = "hide"}  
@@ -568,6 +567,7 @@ We feed the features one at a time into the dataframe "df" and look up the corre
 ```
 
 # Step 8: Evaluation
+Below is a table containing evaluation for the results.
 
 
 ```{r}
