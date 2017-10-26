@@ -7,7 +7,7 @@ Term: Spring 2017
 
 + Team members
 	+ Xuehan Liu         
-	+ Imroze Shaheen
+	+ IS
 	+ Hongyi Zhu
 	+ Mengchen Li
 	+ Nikita Bondarenko
